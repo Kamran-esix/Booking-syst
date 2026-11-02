@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Dr. Fazal Wajid Orthopaedic Clinic">
+  <rect width="64" height="64" rx="16" fill="#0B5A68"/>
+  <g transform="rotate(-45 32 32)" fill="#FFFFFF">
+    <rect x="16" y="28" width="32" height="8" rx="4"/>
+    <circle cx="16" cy="26.5" r="5.5"/>
+    <circle cx="16" cy="37.5" r="5.5"/>
+    <circle cx="48" cy="26.5" r="5.5"/>
+    <circle cx="48" cy="37.5" r="5.5"/>
+  </g>
+  <rect x="38" y="44" width="14" height="4" rx="2" fill="#F0A202"/>
+</svg>

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Dr. Fazal Wajid Clinic</title>
+<meta name="description" content="Book your patient number online with Dr. Fazal Wajid, orthopaedic specialist (MBBS KMU, FCPS Orthopaedics), Hassan Medical Complex, Kabal, Swat.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="demo" id="demoBar" hidden>Demo mode: bookings are saved only in this browser until Firebase is connected.</div>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="Dr. Fazal Wajid">
+      <img src="logo.svg" alt="" width="40" height="40">
+      <span><b data-i18n="brand">Dr. Fazal Wajid</b><small data-i18n="brand_sub">Orthopaedic Clinic</small></span>
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="#book" data-i18n="nav_book">Book a number</a>
+      <a href="#services" data-i18n="nav_services">Services</a>
+      <a href="#doctor" data-i18n="nav_doctor">Doctor</a>
+      <a href="#pay" data-i18n="nav_pay">Payment</a>
+      <a href="#contact" data-i18n="nav_contact">Contact</a>
+    </nav>
+    <div class="langs" id="langs" role="group" aria-label="Language"></div>
+    <a class="btn accent small" href="#book" data-i18n="cta_book">Book a number</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="tag" data-i18n="hero_tag">Orthopaedic specialist · Kabal, Swat</p>
+        <h1 data-i18n="hero_h">Bone and joint care. Book your number before you travel.</h1>
+        <p class="lead" data-i18n="hero_p">Choose a Saturday or Sunday, pick your patient number and see your approximate time.</p>
+        <div class="ctas">
+          <a class="btn accent" href="#book" data-i18n="cta_book">Book a number</a>
+          <a class="btn ghost" id="callBtn" href="#contact" data-i18n="cta_call">Call the clinic</a>
+        </div>
+      </div>
+      <aside class="ticket" aria-live="polite">
+        <p class="label" data-i18n="next_free">Next free number</p>
+        <p class="big" id="heroNum">#–</p>
+        <p class="when" id="heroWhen">&nbsp;</p>
+        <div class="cut" aria-hidden="true"></div>
+        <a class="btn" href="#book" data-i18n="cta_book">Book a number</a>
+      </aside>
+    </div>
+  </section>
+
+  <div class="facts">
+    <div class="wrap">
+      <ul>
+        <li><b data-i18n="f1_t"></b><span data-i18n="f1_d"></span></li>
+        <li><b data-i18n="f2_t"></b><span data-i18n="f2_d"></span></li>
+        <li><b data-i18n="f3_t"></b><span data-i18n="f3_d"></span></li>
+        <li><b data-i18n="f4_t"></b><span data-i18n="f4_d"></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <section id="book" class="book" aria-labelledby="book-h">
+    <div class="wrap">
+      <h2 id="book-h" data-i18n="book_h">Book your number</h2>
+
+      <div id="receipt" hidden></div>
+
+      <div id="wizard">
+        <h3 class="step-h" data-i18n="book_date">1. Choose a day</h3>
+        <div class="chips" id="dates"></div>
+        <p class="muted" id="noDates" hidden data-i18n="no_dates"></p>
+
+        <h3 class="step-h" data-i18n="book_num">2. Choose your number</h3>
+        <div class="legend" aria-hidden="true">
+          <span><i></i><span data-i18n="free">Free</span></span>
+          <span><i class="t"></i><span data-i18n="taken">Taken</span></span>
+          <span><i class="s"></i><span data-i18n="yours">Your choice</span></span>
+        </div>
+        <div class="board" id="board"></div>
+        <p class="msg" id="boardMsg" role="alert" hidden></p>
+
+        <form id="form" novalidate>
+          <h3 class="step-h" data-i18n="book_details">3. Your details</h3>
+          <div class="pick">
+            <div class="field"><label for="name" data-i18n="name">Full name</label>
+              <input id="name" name="name" autocomplete="name" maxlength="80" required data-i18n-ph="name_ph"></div>
+            <div class="field"><label for="loc" data-i18n="loc">Your location</label>
+              <input id="loc" name="location" autocomplete="address-level2" maxlength="120" required data-i18n-ph="loc_ph"></div>
+          </div>
+          <p class="chosen" id="chosen" aria-live="polite"></p>
+          <p class="msg" id="formMsg" role="alert" hidden></p>
+          <button class="btn accent submit" id="submit" type="submit" disabled></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" aria-labelledby="services-h">
+    <div class="wrap">
+      <h2 id="services-h" data-i18n="services_h">What the clinic treats</h2>
+      <div class="cards">
+        <article class="card"><h3 data-i18n="s1_t"></h3><p data-i18n="s1_d"></p></article>
+        <article class="card"><h3 data-i18n="s2_t"></h3><p data-i18n="s2_d"></p></article>
+        <article class="card"><h3 data-i18n="s3_t"></h3><p data-i18n="s3_d"></p></article>
+        <article class="card"><h3 data-i18n="s4_t"></h3><p data-i18n="s4_d"></p></article>
+        <article class="card"><h3 data-i18n="s5_t"></h3><p data-i18n="s5_d"></p></article>
+        <article class="card"><h3 data-i18n="s6_t"></h3><p data-i18n="s6_d"></p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="doctor" aria-labelledby="doctor-h">
+    <div class="wrap">
+      <div class="doctor">
+        <div class="avatar" aria-hidden="true"><img src="images/doctor.jpg" alt="" onerror="var p=this.parentNode;this.remove();p.textContent='FW'"></div>
+        <div>
+          <p class="role" data-i18n="doc_role">Orthopaedic specialist</p>
+          <h2 id="doctor-h" data-i18n="brand">Dr. Fazal Wajid</h2>
+          <p class="quals" data-i18n="doc_q"></p>
+          <p class="bio" data-i18n="doc_bio"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="how-h">
+    <div class="wrap">
+      <h2 id="how-h" data-i18n="how_h">How booking works</h2>
+      <ol class="steps">
+        <li><h3 data-i18n="h1_t"></h3><p data-i18n="h1_d"></p></li>
+        <li><h3 data-i18n="h2_t"></h3><p data-i18n="h2_d"></p></li>
+        <li><h3 data-i18n="h3_t"></h3><p data-i18n="h3_d"></p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="pay" aria-labelledby="pay-h">
+    <div class="wrap">
+      <div class="pay">
+        <div>
+          <h2 id="pay-h" data-i18n="pay_h">Pay online (optional)</h2>
+          <p class="muted" data-i18n="pay_p"></p>
+          <ol>
+            <li data-i18n="pay_s1"></li>
+            <li data-i18n="pay_s2"></li>
+            <li id="paySend"></li>
+          </ol>
+        </div>
+        <div>
+          <div class="epnum">
+            <span class="l">Easypaisa</span>
+            <b id="epNum"></b>
+            <button class="btn ghost small" id="copyBtn" type="button" data-i18n="copy">Copy number</button>
+          </div>
+          <p style="margin-top:1rem"><a class="btn" id="payWa" href="#" target="_blank" rel="noopener" data-i18n="pay_btn">Send screenshot on WhatsApp</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <h2 id="contact-h" data-i18n="contact_h">Visit the clinic</h2>
+      <div class="contact">
+        <div class="card"><b data-i18n="addr_l">Address</b><p data-i18n="addr"></p>
+          <p style="margin-top:.75rem"><a class="btn ghost small" id="mapBtn" href="#" target="_blank" rel="noopener" data-i18n="map_btn">Open in Google Maps</a></p></div>
+        <div class="card"><b data-i18n="phone_l">Phone</b><p class="ltr" id="phoneTxt"></p>
+          <b style="margin-top:.75rem" data-i18n="wa_l">WhatsApp</b><p class="ltr" id="waTxt"></p></div>
+        <div class="card"><b data-i18n="hours_l">Hours</b><p data-i18n="hours"></p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span data-i18n="foot"></span></div></footer>
+<a class="btn wa" id="waFloat" href="#" target="_blank" rel="noopener"><span data-i18n="wa_float">WhatsApp</span></a>
+
+<script type="module" src="js/site.js"></script>
+</body>
+</html>

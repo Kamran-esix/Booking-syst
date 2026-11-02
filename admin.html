@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex">
+<title>Clinic Admin</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="demo" id="demoBar" hidden>Demo mode: not connected to Firebase yet. Data is kept in this browser only. Demo password: demo1234</div>
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="index.html"><img src="logo.svg" alt="" width="40" height="40"><span><b>Dr. Fazal Wajid</b><small>Staff dashboard</small></span></a>
+    <span id="who" class="muted" hidden></span>
+    <button class="btn ghost small" id="logout" type="button" hidden style="display:none">Sign out</button>
+  </div>
+</header>
+
+<main class="wrap" style="padding-block:1.5rem 4rem">
+  <form class="login" id="loginForm" hidden>
+    <h1 style="font-size:1.6rem">Staff sign in</h1>
+    <div class="field"><label for="who-sel">Who are you?</label>
+      <select id="who-sel"></select></div>
+    <div class="field"><label for="pw">Password</label>
+      <input id="pw" type="password" autocomplete="current-password" required></div>
+    <p class="msg" id="loginMsg" role="alert" hidden></p>
+    <button class="btn" type="submit">Sign in</button>
+  </form>
+
+  <div id="panel" hidden>
+    <div class="tools">
+      <div class="field"><label for="day">Day</label><input id="day" type="date"></div>
+      <button class="btn ghost small" id="nextOpen" type="button">Next open day</button>
+      <button class="btn ghost small" id="toggleClosed" type="button">Close this day</button>
+    </div>
+    <p class="msg" id="dayNote" hidden></p>
+    <div class="stats" id="stats"></div>
+
+    <form class="add" id="addForm">
+      <div class="field"><label for="addNum">Add a walk-in: number</label><select id="addNum"></select></div>
+      <div class="field"><label for="addName">Name</label><input id="addName" maxlength="80" required></div>
+      <div class="field"><label for="addLoc">Location</label><input id="addLoc" maxlength="120" required></div>
+      <button class="btn small" type="submit">Add patient</button>
+    </form>
+    <p class="msg" id="panelMsg" role="alert" hidden></p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Approx. time</th><th>Patient</th><th>Location</th><th>Status</th><th></th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>

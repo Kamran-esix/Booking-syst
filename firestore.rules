@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Only these logins can see patient names and manage bookings.
+    // Replace with the emails you create in Firebase Authentication.
+    function isStaff() {
+      return request.auth != null
+        && request.auth.token.email in ['doctor@drfazalwajid.com', 'assistant@drfazalwajid.com'];
+    }
+
+    // Document id must be "<date>_<number>", for example 2026-11-07_3
+    function validId(id, d) {
+      return d.date is string
+        && d.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && d.number is int
+        && d.number >= 1 && d.number <= 50
+        && id == d.date + '_' + string(d.number);
+    }
+
+    // "Number taken" markers. Public to read so the grid updates live.
+    // Create only works if the document does not exist yet, which is what
+    // stops two people booking the same number.
+    match /slots/{id} {
+      allow read: if true;
+      allow create: if validId(id, request.resource.data)
+        && request.resource.data.keys().hasOnly(['date', 'number'])
+        && !exists(/databases/$(database)/documents/closedDays/$(request.resource.data.date))
+        && existsAfter(/databases/$(database)/documents/bookings/$(id));
+      allow delete: if isStaff();
+    }
+
+    // Patient details. Anyone can create one together with its slot, only staff can read.
+    match /bookings/{id} {
+      allow create: if validId(id, request.resource.data)
+        && request.resource.data.keys().hasOnly(['date', 'number', 'name', 'location', 'status', 'createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 2 && request.resource.data.name.size() <= 80
+        && request.resource.data.location is string
+        && request.resource.data.location.size() >= 2 && request.resource.data.location.size() <= 120
+        && request.resource.data.status == 'booked'
+        && request.resource.data.createdAt == request.time
+        && !exists(/databases/$(database)/documents/slots/$(id))
+        && existsAfter(/databases/$(database)/documents/slots/$(id));
+      allow read, delete: if isStaff();
+      allow update: if isStaff()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        && request.resource.data.status in ['booked', 'done'];
+    }
+
+    // Days the clinic is closed (holidays).
+    match /closedDays/{day} {
+      allow read: if true;
+      allow write: if isStaff();
+    }
+  }
+}
